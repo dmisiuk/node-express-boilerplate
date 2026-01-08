@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-api
+  namespace: demo-api-dmisiuk
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-api
+  template:
+    metadata:
+      labels:
+        app: demo-api
+    spec:
+      imagePullSecrets:
+        - name: ghcr-creds
+      containers:
+        - name: demo-api
+          image: ghcr.io/dmisiuk/node-express-boilerplate:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: PORT
+              value: "3000"
+            - name: HTTP_HOST
+              value: 0.0.0.0
+            - name: NODE_ENV
+              value: production
+          resources:
+            requests:
+              cpu: 125m
+              memory: 256Mi
+            limits:
+              cpu: 250m
+              memory: 512Mi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-api
+  namespace: demo-api-dmisiuk
+spec:
+  selector:
+    app: demo-api
+  ports:
+    - port: 80
+      targetPort: 3000
+  type: ClusterIP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: demo-api
+  namespace: demo-api-dmisiuk
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+spec:
+  rules:
+    - host: demo-api.openfab.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: demo-api
+                port:
+                  number: 80
+
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: demo-api-secrets
+  namespace: demo-api-dmisiuk
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: openbao-store
+    kind: ClusterSecretStore
+  target:
+    name: demo-api-secrets
+    creationPolicy: Owner
+  data: []
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ghcr-creds
+  namespace: demo-api-dmisiuk
+type: kubernetes.io/dockerconfigjson
+data:
+  .dockerconfigjson: eyAiYXV0aHMiOiB7IH0gfQ==
