@@ -1,0 +1,16 @@
+version: v1
+kind: Service
+metadata:
+  name: demo-api
+spec:
+  runtime: nodejs
+  port: 3000 # or whatever port the app uses
+  env:
+    - name: NODE_ENV
+      value: 'production'
+  # Optional: Add secrets if needed for testing
+  # secrets:
+  #   - name: DATABASE_URL
+  #     key: demo/database-url
+  build:
+    dockerfile: Dockerfile
