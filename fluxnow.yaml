@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: demo-api
 spec:
-  runtime: nodejs
+  runtime: node
   port: 3000 # or whatever port the app uses
   env:
     - name: NODE_ENV
