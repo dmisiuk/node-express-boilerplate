@@ -8,9 +8,6 @@ spec:
   env:
     - name: NODE_ENV
       value: 'production'
-  # Optional: Add secrets if needed for testing
-  # secrets:
-  #   - name: DATABASE_URL
-  #     key: demo/database-url
+  secrets: []
   build:
     dockerfile: Dockerfile
