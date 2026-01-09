@@ -17,7 +17,7 @@ spec:
         - name: ghcr-creds
       containers:
         - name: node-express-boilerplate
-          image: ghcr.io/dmisiuk/node-express-boilerplate:latest
+          image: ghcr.io/dmisiuk/node-express-boilerplate:sha-7375104
           ports:
             - containerPort: 3000
           env:
