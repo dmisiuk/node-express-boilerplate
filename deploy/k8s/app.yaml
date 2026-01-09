@@ -60,7 +60,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.tls: "true"
 spec:
   rules:
-    - host: node-express-boilerplate.openfab.dev
+    - host: dmisiuk-node-express-boilerplate.openfab.dev
       http:
         paths:
           - path: /
