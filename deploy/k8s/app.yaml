@@ -18,6 +18,8 @@ spec:
       containers:
         - name: node-express-boilerplate
           image: ghcr.io/dmisiuk/node-express-boilerplate:sha-e087916
+          command: ["yarn"]
+          args: ["start"]
           ports:
             - containerPort: 3000
           env:
