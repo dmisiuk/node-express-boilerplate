@@ -17,7 +17,7 @@ spec:
         - name: ghcr-creds
       containers:
         - name: node-express-boilerplate
-          image: ghcr.io/dmisiuk/node-express-boilerplate:sha-e087916
+          image: ghcr.io/dmisiuk/node-express-boilerplate:sha-80bafa0
           command: ["yarn"]
           args: ["start"]
           ports:
